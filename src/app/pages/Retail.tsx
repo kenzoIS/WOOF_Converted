@@ -10,6 +10,8 @@ import {
   Bar,
   LineChart,
   Line,
+  PieChart as RePieChart,
+  Pie,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -55,6 +57,36 @@ const salesVelocity = Array.from({ length: 14 }, (_, i) => ({
   online: Math.random() * 12000 + 4000,
 }));
 
+const retailSentimentData = [
+  { name: "Positive", value: 72, color: "#3AE4FA" },
+  { name: "Neutral", value: 18, color: "#CCCCCC" },
+  { name: "Negative", value: 10, color: "#F53799" },
+];
+
+const flaggedRetailReviews = [
+  {
+    platform: "Shopee",
+    text: "Product arrived with missing accessories and the listing description was misleading.",
+    date: "Apr 14, 2026",
+    product: "Premium Dog Food 5kg",
+    keywords: ["missing", "misleading"],
+  },
+  {
+    platform: "Physical Store",
+    text: "Shelf label was incorrect and the cashier gave conflicting pricing information.",
+    date: "Apr 13, 2026",
+    product: "Cat Litter Premium 10L",
+    keywords: ["incorrect", "conflicting"],
+  },
+  {
+    platform: "Tiktok",
+    text: "Packaging felt cheap and the purchase experience was slower than expected.",
+    date: "Apr 12, 2026",
+    product: "Pet Collar Deluxe",
+    keywords: ["cheap", "slower"],
+  },
+];
+
 export function Retail() {
   const [filterVelocity, setFilterVelocity] = useState("all");
   const [sortColumn, setSortColumn] = useState<string | null>(null);
@@ -62,6 +94,8 @@ export function Retail() {
   const [expandedSKU, setExpandedSKU] = useState<string | null>(null);
   const [discountSlider, setDiscountSlider] = useState([25]);
   const [selectedChannel, setSelectedChannel] = useState("all");
+  const [keywords, setKeywords] = useState(["missing", "misleading", "incorrect", "slow", "damaged"]);
+  const [newKeyword, setNewKeyword] = useState("");
   const [errorModal, setErrorModal] = useState<{ isOpen: boolean; type: ErrorType | null }>({
     isOpen: false,
     type: null,
@@ -124,6 +158,19 @@ export function Retail() {
     setTimeout(() => {
       setSuccessModal({ isOpen: true, type: "payment_success" });
     }, 1500);
+  };
+
+  const handleAddKeyword = () => {
+    if (newKeyword.trim() && !keywords.includes(newKeyword.trim())) {
+      setKeywords([...keywords, newKeyword.trim()]);
+      setNewKeyword("");
+      toast.success("Keyword added");
+    }
+  };
+
+  const handleRemoveKeyword = (keyword: string) => {
+    setKeywords(keywords.filter((k) => k !== keyword));
+    toast.info("Keyword removed");
   };
 
   const getVelocityColor = (velocity: string) => {
@@ -605,6 +652,119 @@ export function Retail() {
               <span className="text-xs md:text-sm text-[#223047]">{channel.label}</span>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* RETAIL REVIEW SENTIMENT MONITOR */}
+      <div className="bg-white border border-[#FFD9EC] rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6">
+        <div>
+          <h2 className="text-lg md:text-xl lg:text-[22px] font-bold text-[#223047]">
+            Retail Review Sentiment Monitor
+          </h2>
+          <p className="text-xs md:text-sm text-[#223047] opacity-60 mt-1" style={{ lineHeight: "1.6" }}>
+            NLP analysis of Shopee and in-store retail feedback
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+          {/* Sentiment Donut */}
+          <div className="flex flex-col items-center justify-center py-4 md:py-0">
+            <div className="relative w-full max-w-[240px] md:max-w-[280px] mx-auto">
+              <ResponsiveContainer width="100%" height={200}>
+                <RePieChart>
+                  <Pie
+                    data={retailSentimentData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={80}
+                    paddingAngle={2}
+                    dataKey="value"
+                    animationDuration={800}
+                  >
+                    {retailSentimentData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                </RePieChart>
+              </ResponsiveContainer>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                <div className="text-2xl md:text-3xl font-extrabold text-[#223047]">72%</div>
+                <div className="text-xs text-[#223047] opacity-60">Positive</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Flagged Review Feed */}
+          <div className="md:col-span-2 space-y-3 max-h-[300px] overflow-y-auto overflow-x-hidden">
+            {flaggedRetailReviews.map((review, idx) => (
+              <div key={idx} className="p-3 md:p-4 bg-[#FFF7FB] border border-[#FFD9EC] rounded-lg md:rounded-xl space-y-2">
+                <div className="flex items-center justify-between">
+                  <Badge variant="outline" className="text-xs">{review.platform}</Badge>
+                  <span className="text-xs text-[#223047] opacity-50">{review.date}</span>
+                </div>
+                <p className="text-xs md:text-sm text-[#223047]" style={{ lineHeight: "1.6" }}>
+                  {review.text.split(" ").map((word, i) =>
+                    review.keywords.some((kw) => word.toLowerCase().includes(kw)) ? (
+                      <span key={`word-${idx}-${i}`} className="font-bold text-[#F53799]">
+                        {word}{" "}
+                      </span>
+                    ) : (
+                      <span key={`word-${idx}-${i}`}>{word} </span>
+                    )
+                  )}
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-[#223047] opacity-60">{review.product}</span>
+                  <Button size="sm" variant="outline" className="border-[#F53799] text-[#F53799] text-xs">
+                    <span className="hidden sm:inline">Flag for Inspection</span>
+                    <span className="sm:hidden">Flag</span>
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+
+        {/* Keyword Management */}
+        <div className="pt-4 md:pt-6 border-t border-[#FFD9EC] space-y-3">
+          <h3 className="text-xs md:text-sm font-semibold text-[#223047]">Negative Keywords</h3>
+          <div className="flex flex-wrap gap-2">
+            {keywords.map((keyword) => (
+              <Badge
+                key={keyword}
+                variant="outline"
+                className="gap-2 border-[#FFD9EC] bg-[#FFF2FA] text-xs"
+              >
+                {keyword}
+                <button
+                  onClick={() => handleRemoveKeyword(keyword)}
+                  className="hover:text-[#F53799]"
+                >
+                  ×
+                </button>
+              </Badge>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={newKeyword}
+              onChange={(e) => setNewKeyword(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleAddKeyword();
+                }
+              }}
+              placeholder="Add new keyword..."
+              className="flex-1 px-3 md:px-4 py-2 border border-[#FFD9EC] rounded-lg text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-[#F53799]"
+            />
+            <Button onClick={handleAddKeyword} className="bg-[#F53799] hover:bg-[#D42A7D] text-xs md:text-sm px-3 md:px-4">
+              <span className="hidden sm:inline">Add Keyword</span>
+              <span className="sm:hidden">Add</span>
+            </Button>
+          </div>
         </div>
       </div>
 

@@ -1,11 +1,58 @@
 
-  # sandbox mobile
+# WOOF AI Dashboard Prototype
 
-  This is a code bundle for sandbox mobile. The original project is available at https://www.figma.com/design/v3zjv3THrx2PBCucfdmu90/sandbox-mobile.
+This is a Next.js-based dashboard prototype for WOOF AI, a business intelligence platform for pet care businesses. The project includes pages for Cafe, Retail, Services, Home, and other features.
 
-  ## Running the code
+## Running the Project
 
-  Run `npm i` to install the dependencies.
+Follow these steps to run the project locally:
 
-  Run `npm run dev` to start the development server.
+1. **Install Dependencies**:
+   ```
+   npm install
+   ```
+   or if you prefer pnpm:
+   ```
+   pnpm install
+   ```
+
+2. **Start the Development Server**:
+   ```
+   npm run dev
+   ```
+   or with pnpm:
+   ```
+   pnpm dev
+   ```
+
+   The server will start on `http://localhost:3000` by default.
+
+3. **Build for Production** (optional):
+   ```
+   npm run build
+   npm start
+   ```
+
+## Project Structure
+
+- `src/app/pages/` - Page components for different sections
+- `src/app/components/` - Reusable UI components
+- `src/app/lib/` - Utility functions
+- `src/styles/` - CSS and styling files
+
+## Technologies Used
+
+- Next.js 15.3.0
+- React 18
+- Tailwind CSS
+- Recharts for data visualization
+- Radix UI components
+
+## Features
+
+- Multi-sector dashboard (Cafe, Retail, Services)
+- AI-powered insights and recommendations
+- Sentiment analysis monitors
+- Inventory management
+- Forecasting and simulation tools
   

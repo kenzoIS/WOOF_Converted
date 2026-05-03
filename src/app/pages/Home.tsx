@@ -326,16 +326,16 @@ export function Home() {
                 <stop offset="100%" stopColor="#F53799" stopOpacity={0} />
               </linearGradient>
               <linearGradient key="servicesGrad-gradient" id="servicesGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#3AE4FA" stopOpacity={0.35} />
-                <stop offset="100%" stopColor="#3AE4FA" stopOpacity={0} />
+                <stop offset="0%" stopColor="#0EA5E9" stopOpacity={0.35} />
+                <stop offset="100%" stopColor="#0EA5E9" stopOpacity={0} />
               </linearGradient>
               <linearGradient key="retailGrad-gradient" id="retailGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#D42A7D" stopOpacity={0.35} />
-                <stop offset="100%" stopColor="#D42A7D" stopOpacity={0} />
+                <stop offset="0%" stopColor="#F59E0B" stopOpacity={0.35} />
+                <stop offset="100%" stopColor="#F59E0B" stopOpacity={0} />
               </linearGradient>
               <linearGradient key="onlineGrad-gradient" id="onlineGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#5CE1E6" stopOpacity={0.35} />
-                <stop offset="100%" stopColor="#5CE1E6" stopOpacity={0} />
+                <stop offset="0%" stopColor="#7C3AED" stopOpacity={0.35} />
+                <stop offset="100%" stopColor="#7C3AED" stopOpacity={0} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#FFD9EC" vertical={false} />
@@ -365,7 +365,7 @@ export function Home() {
                 key="services-area"
                 type="monotone"
                 dataKey="services"
-                stroke="#3AE4FA"
+                stroke="#0EA5E9"
                 strokeWidth={2.5}
                 fill="url(#servicesGrad)"
                 animationDuration={800}
@@ -376,7 +376,7 @@ export function Home() {
                 key="retail-area"
                 type="monotone"
                 dataKey="retail"
-                stroke="#D42A7D"
+                stroke="#F59E0B"
                 strokeWidth={2.5}
                 fill="url(#retailGrad)"
                 animationDuration={800}
@@ -387,7 +387,7 @@ export function Home() {
                 key="online-area"
                 type="monotone"
                 dataKey="online"
-                stroke="#5CE1E6"
+                stroke="#7C3AED"
                 strokeWidth={2.5}
                 fill="url(#onlineGrad)"
                 animationDuration={800}
@@ -400,9 +400,9 @@ export function Home() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 pt-4 border-t border-[#FFD9EC]">
           {[
             { key: "cafe", label: "Cafe", color: "#F53799", total: "₱18,450", percent: "40.8%" },
-            { key: "services", label: "Services", color: "#3AE4FA", total: "₱14,230", percent: "31.4%" },
-            { key: "retail", label: "Retail", color: "#D42A7D", total: "₱9,180", percent: "20.3%" },
-            { key: "online", label: "Online", color: "#5CE1E6", total: "₱3,420", percent: "7.5%" },
+            { key: "services", label: "Services", color: "#0EA5E9", total: "₱14,230", percent: "31.4%" },
+            { key: "retail", label: "Retail", color: "#F59E0B", total: "₱9,180", percent: "20.3%" },
+            { key: "online", label: "Online", color: "#7C3AED", total: "₱3,420", percent: "7.5%" },
           ].map((sector) => (
             <button
               key={sector.key}
